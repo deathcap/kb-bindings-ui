@@ -1,0 +1,12 @@
+{
+  "name": "kb-bindings-ui",
+  "description": "user interface for kb-bindings",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:deathcap/kb-bindings-ui.git"
+  },
+  "dependencies": {
+    "dat-gui": "~0.5.0"
+  }
+}
