@@ -41,7 +41,7 @@ function BindingsUI(game, opts) {
   this.binding2Key = {};
   for (var key in this.kb.bindings) {
     var binding = this.kb.bindings[key];
-    this.binding2Key[binding] = key;
+    this.binding2Key[binding] = this.vkeyBracket2Bare[key];
     this.addBinding(binding);
   }
 }
@@ -56,15 +56,20 @@ BindingsUI.prototype.shouldHideKey = function(name) {
 BindingsUI.prototype.addBinding = function (binding) {
   var item = this.folder.add(this.binding2Key, binding, this.keyListing);
 
-  //item.onFinishChange(updateBinding(this, binding));
+  item.onChange(updateBinding(this, binding));
 };
 
-/*
 function updateBinding(self, binding) {
-  return function(newKeyName) {
-    if (self.vkey2code[newKeyName] !== undefined) {
+  return function(newKeyNameBare) {
+    //if (self.vkey2code[newKeyName] === undefined) // invalid vkey
 
-    }
+    var newKeyName = self.vkeyBare2Bracket[newKeyNameBare];
+
+    var oldKeyName = self.kb.bindings[binding];
+
+    //TODO delete self.kb.bindings[oldKeyName];
+
+    self.kb.bindings[newKeyName] = binding;
   };
 }
-*/
+
