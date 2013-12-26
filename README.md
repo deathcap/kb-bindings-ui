@@ -4,6 +4,8 @@ A graphical interface for [kb-bindings](https://github.com/deathcap/kb-bindings)
 
 ![screenshot](http://i.imgur.com/Qn85CUW.png "Screenshot") 
 
+To try the demo run `npm start`.
+
 ## Usage
 
     var createBindingsUI = require('kb-bindings-ui');

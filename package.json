@@ -12,5 +12,13 @@
   },
   "peerDependencies": {
     "kb-bindings": "~0.0.5"
+  },
+  "devDependencies": {
+    "kb-bindings": "~0.0.5",
+    "interact": "0.0.2",
+    "raf": "0.0.1"
+  },
+  "scripts": {
+    "start": "beefy demo.js:bundle.js 8889"
   }
 }
