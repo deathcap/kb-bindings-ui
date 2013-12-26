@@ -65,11 +65,19 @@ function updateBinding(self, binding) {
 
     var newKeyName = self.vkeyBare2Bracket[newKeyNameBare];
 
-    var oldKeyName = self.kb.bindings[binding];
-
-    //TODO delete self.kb.bindings[oldKeyName];
+    self.removeBindings(binding);
 
     self.kb.bindings[newKeyName] = binding;
   };
 }
+
+// remove all keys bound to given binding
+BindingsUI.prototype.removeBindings = function(binding) {
+  for (var key in this.kb.bindings) {
+    var thisBinding = this.kb.bindings[key];
+    if (thisBinding === binding) {
+      delete this.kb.bindings[key];
+    }
+  }
+};
 
