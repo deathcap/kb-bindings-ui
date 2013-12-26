@@ -16,8 +16,9 @@ function BindingsUI(game, opts) {
   this.gui = opts.gui || new datgui.GUI();
   this.folder = this.gui.addFolder('keys');
 
-  for (var key in this.kb) {
-    if (isReserved(key)) continue;
+  if (!this.kb.bindings) throw 'kb-bindings-ui "kb" option could not find kb-bindings\' bindings';
+
+  for (var key in this.kb.bindings) {
     this.addKey(key);
   }
 }
@@ -32,7 +33,7 @@ function isReserved(s) {
 }
 
 BindingsUI.prototype.addKey = function (name) {
-  var item = this.folder.add(this.kb, name);
+  var item = this.folder.add(this.kb.bindings, name);
   //item.onChange(updateBinding(this, name));
 };
 
