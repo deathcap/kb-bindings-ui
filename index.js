@@ -15,6 +15,8 @@ function BindingsUI(game, opts) {
   this.kb = opts.kb;
   if (!this.kb) throw 'kb-bindings-ui requires "kb" option set to kb-bindings instance';
   this.gui = opts.gui || new datgui.GUI();
+  this.hideKeys = opts.hideKeys || ['ime-', 'launch-', 'browser-']; // too long
+
   this.folder = this.gui.addFolder('keys');
 
   if (!this.kb.bindings) throw 'kb-bindings-ui "kb" option could not find kb-bindings\' bindings';
@@ -22,6 +24,7 @@ function BindingsUI(game, opts) {
   this.vkey2code = {};
   this.vkeyBracket2Bare = {};
   this.vkeyBare2Bracket = {};
+  this.keyListing = [];
   for (var code in vkey) {
     var keyName = vkey[code];
 
@@ -30,6 +33,9 @@ function BindingsUI(game, opts) {
     var keyNameBare = keyName.replace('<', '').replace('>', '');
     this.vkeyBracket2Bare[keyName] = keyNameBare;
     this.vkeyBare2Bracket[keyNameBare] = keyName;
+
+    if (!this.shouldHideKey(keyNameBare))
+      this.keyListing.push(keyNameBare);
   }
 
   this.binding2Key = {};
@@ -40,8 +46,15 @@ function BindingsUI(game, opts) {
   }
 }
 
+BindingsUI.prototype.shouldHideKey = function(name) {
+  for (var i = 0; i < this.hideKeys.length; ++i) {
+    if (name.indexOf(this.hideKeys[i]) === 0) return true;
+  }
+  return false;
+};
+
 BindingsUI.prototype.addBinding = function (binding) {
-  var item = this.folder.add(this.binding2Key, binding, Object.keys(this.vkeyBare2Bracket));
+  var item = this.folder.add(this.binding2Key, binding, this.keyListing);
 
   //item.onFinishChange(updateBinding(this, binding));
 };
