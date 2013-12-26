@@ -1,6 +1,7 @@
 // # vim: set shiftwidth=2 tabstop=2 softtabstop=2 expandtab:
   
 var datgui = require('dat-gui');
+var vkey = require('vkey');
 
 module.exports = function(game, opts) {
   return new BindingsUI(game, opts);
@@ -18,6 +19,11 @@ function BindingsUI(game, opts) {
 
   if (!this.kb.bindings) throw 'kb-bindings-ui "kb" option could not find kb-bindings\' bindings';
 
+  this.vkey2code = {};
+  for (var code in vkey) {
+    this.vkey2code[vkey[code]] = code;
+  }
+
   this.binding2Key = {};
   for (var key in this.kb.bindings) {
     var binding = this.kb.bindings[key];
@@ -26,17 +32,18 @@ function BindingsUI(game, opts) {
   }
 }
 
-function isReserved(s) {
-  return s === 'enabled' ||
-       s === 'enable' ||
-       s === 'disable' ||
-       s === 'destroy' ||
-       s === 'down' ||
-       s === 'up';
-}
+BindingsUI.prototype.addBinding = function (binding) {
+  var item = this.folder.add(this.binding2Key, binding, Object.keys(this.vkey2code));
 
-BindingsUI.prototype.addBinding = function (name) {
-  var item = this.folder.add(this.binding2Key, name);
-  //item.onChange(updateBinding(this, name));
+  //item.onFinishChange(updateBinding(this, binding));
 };
 
+/*
+function updateBinding(self, binding) {
+  return function(newKeyName) {
+    if (self.vkey2code[newKeyName] !== undefined) {
+
+    }
+  };
+}
+*/
