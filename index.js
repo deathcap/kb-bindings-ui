@@ -18,8 +18,11 @@ function BindingsUI(game, opts) {
 
   if (!this.kb.bindings) throw 'kb-bindings-ui "kb" option could not find kb-bindings\' bindings';
 
+  this.bindingNames = {};
   for (var key in this.kb.bindings) {
-    this.addKey(key);
+    var keyName = key.replace("<", "&lt;");
+    this.bindingNames[keyName] = this.kb.bindings[key];
+    this.addKey(keyName);
   }
 }
 
@@ -33,7 +36,7 @@ function isReserved(s) {
 }
 
 BindingsUI.prototype.addKey = function (name) {
-  var item = this.folder.add(this.kb.bindings, name);
+  var item = this.folder.add(this.bindingNames, name);
   //item.onChange(updateBinding(this, name));
 };
 
