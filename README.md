@@ -4,7 +4,7 @@ A graphical interface for [kb-bindings](https://github.com/deathcap/kb-bindings)
 
 ![screenshot](http://i.imgur.com/Qn85CUW.png "Screenshot") 
 
-To try the demo run `npm start`.
+To try the demo run `npm start` or visit [http://deathcap.github.io/kb-bindings-ui/](http://deathcap.github.io/kb-bindings-ui/).
 
 ## Usage
 
