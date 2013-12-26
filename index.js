@@ -20,8 +20,12 @@ function BindingsUI(game, opts) {
   if (!this.kb.bindings) throw 'kb-bindings-ui "kb" option could not find kb-bindings\' bindings';
 
   this.vkey2code = {};
+  this.vkeyNamesHTML = [];
   for (var code in vkey) {
     this.vkey2code[vkey[code]] = code;
+
+    var vkeyNameHTML = vkey[code].replace('<', '&lt;'); // TODO
+    this.vkeyNamesHTML.push(vkeyNameHTML);
   }
 
   this.binding2Key = {};
@@ -33,7 +37,7 @@ function BindingsUI(game, opts) {
 }
 
 BindingsUI.prototype.addBinding = function (binding) {
-  var item = this.folder.add(this.binding2Key, binding, Object.keys(this.vkey2code));
+  var item = this.folder.add(this.binding2Key, binding, this.vkeyNamesHTML);
 
   //item.onFinishChange(updateBinding(this, binding));
 };
