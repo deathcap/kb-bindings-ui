@@ -7,19 +7,22 @@ module.exports = function(game, opts) {
   return new BindingsUI(game, opts);
 };
 
+module.exports.pluginInfo = {
+  loadAfter: ['voxel-debug', 'voxel-plugins-ui'] // optional to load after and reuse same gui
+};
+
 function BindingsUI(game, opts) {
   this.game = game;
 
   opts = opts || {};
 
-  this.kb = opts.kb;
-  if (!this.kb) throw 'kb-bindings-ui requires "kb" option set to kb-bindings instance';
-  this.gui = opts.gui || new datgui.GUI();
+  this.kb = opts.kb || (game && game.buttons);
+  if (!this.kb) throw 'kb-bindings-ui requires "kb" option set to kb-bindings instance, or voxel-engine game with kb-bindings for game.buttons';
+  if (!this.kb.bindings) throw 'kb-bindings-ui "kb" option could not find kb-bindings\' bindings, not set to kb-bindings instance? (vs kb-controls)';
+  this.gui = opts.gui || (game && game.plugins && game.plugins.get('voxel-debug') ? game.plugins.get('voxel-debug').gui : new datgui.GUI());
   this.hideKeys = opts.hideKeys || ['ime-', 'launch-', 'browser-']; // too long
 
   this.folder = this.gui.addFolder('keys');
-
-  if (!this.kb.bindings) throw 'kb-bindings-ui "kb" option could not find kb-bindings\' bindings';
 
   this.vkey2code = {};
   this.vkeyBracket2Bare = {};
