@@ -6,19 +6,25 @@
     "type": "git",
     "url": "git@github.com:deathcap/kb-bindings-ui.git"
   },
+  "keywords": [
+    "voxel",
+    "keys",
+    "bindings"
+  ],
   "dependencies": {
     "dat-gui": "~0.5.0",
-    "vkey": "0.0.3"
+    "vkey": "~0.0.3"
   },
   "peerDependencies": {
-    "kb-bindings": "~0.0.5"
+    "kb-bindings": "~0.1.0"
   },
   "devDependencies": {
-    "kb-bindings": "~0.0.5",
-    "interact": "0.0.2",
-    "raf": "0.0.1"
+    "kb-bindings": "~0.1.0",
+    "interact": "~0.0.2",
+    "raf": "~0.0.1"
   },
   "scripts": {
-    "start": "beefy demo.js:bundle.js 8889"
-  }
+    "start": "beefy demo.js:bundle.js"
+  },
+  "license": "MIT"
 }
