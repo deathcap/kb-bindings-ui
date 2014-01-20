@@ -1,5 +1,7 @@
-// # vim: set shiftwidth=2 tabstop=2 softtabstop=2 expandtab:
-  
+'use strict';
+
+if (typeof window === 'undefined') return; // requires browser
+
 var datgui = require('dat-gui');
 var vkey = require('vkey');
 
