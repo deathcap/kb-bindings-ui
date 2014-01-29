@@ -16,10 +16,10 @@
     "vkey": "~0.0.3"
   },
   "peerDependencies": {
-    "kb-bindings": "~0.1.0"
+    "kb-bindings": "~0.2.0"
   },
   "devDependencies": {
-    "kb-bindings": "~0.1.0",
+    "kb-bindings": "~0.2.0",
     "interact": "~0.0.2",
     "raf": "~0.0.1"
   },
