@@ -16,14 +16,13 @@ function BindingsUI(game, opts) {
 
   opts = opts || {};
 
-  this.kb = opts.kb || (game && game.buttons);
-  if (!this.kb) throw 'kb-bindings-ui requires "kb" option set to kb-bindings instance, or voxel-engine game with kb-bindings for game.buttons';
-  if (!this.kb.bindings) throw 'kb-bindings-ui "kb" option could not find kb-bindings\' bindings, not set to kb-bindings instance? (vs kb-controls)';
+  this.kb = opts.kb || (game && game.buttons); // might be undefined
   this.gui = opts.gui || (game && game.plugins && game.plugins.get('voxel-debug') ? game.plugins.get('voxel-debug').gui : new require('dat-gui').GUI());
   this.hideKeys = opts.hideKeys || ['ime-', 'launch-', 'browser-']; // too long
 
   this.folder = this.gui.addFolder('keys');
 
+  // clean up the valid key listing TODO: refactor with game-shell? it does almost the same
   this.vkey2code = {};
   this.vkeyBracket2Bare = {};
   this.vkeyBare2Bracket = {};
@@ -41,16 +40,27 @@ function BindingsUI(game, opts) {
       this.keyListing.push(keyNameBare);
   }
 
+  // get keybindings
   this.binding2Key = {};
-  for (var key in this.kb.bindings) {
-    var binding = this.kb.bindings[key];
-    if (Array.isArray(binding)) {
-      // if multiple bindings, only take first
-      binding = binding[0];
+  if (this.kb && this.kb.bindings) {
+    // voxel-engine with kb-bindings - stores key -> binding
+    for (var key in this.kb.bindings) {
+      var binding = this.kb.bindings[key];
+      this.binding2Key[binding] = this.vkeyBracket2Bare[key] || key;
+      this.addBinding(binding);
     }
+  } else if (this.game.shell && this.game.shell.bindings) {
+    // game-shell - stores binding -> key(s)
+    for (var binding in this.game.shell.bindings) {
+      var key = this.game.shell.bindings[binding];
 
-    this.binding2Key[binding] = this.vkeyBracket2Bare[key] || key;
-    this.addBinding(binding);
+      if (Array.isArray(key)) {
+        key = key[0]; // TODO: support multiple keys. for now, only taking first
+      }
+
+      this.binding2Key[binding] = this.vkeyBracket2Bare[key] || key;
+      this.addBinding(binding);
+    }
   }
 }
 
@@ -75,17 +85,25 @@ function updateBinding(self, binding) {
 
     self.removeBindings(binding);
 
-    self.kb.bindings[newKeyName] = binding;
+    if (self.kb && self.kb.bindings) {
+      self.kb.bindings[newKeyName] = binding;
+    } else {
+      self.game.shell.bind(binding, newKeyName);
+    }
   };
 }
 
 // remove all keys bound to given binding
 BindingsUI.prototype.removeBindings = function(binding) {
-  for (var key in this.kb.bindings) {
-    var thisBinding = this.kb.bindings[key];
-    if (thisBinding === binding) {
-      delete this.kb.bindings[key];
+  if (this.kb && this.kb.bindings) {
+    for (var key in this.kb.bindings) {
+      var thisBinding = this.kb.bindings[key];
+      if (thisBinding === binding) {
+        delete this.kb.bindings[key];
+      }
     }
+  } else {
+    this.game.shell.unbind(binding);
   }
 };
 

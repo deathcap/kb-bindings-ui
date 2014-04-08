@@ -1,6 +1,7 @@
 # kb-bindings-ui
 
-A graphical interface for configuring [kb-bindings](https://github.com/deathcap/kb-bindings) using [dat-gui](https://code.google.com/p/dat-gui/).
+A graphical interface for configuring [kb-bindings](https://github.com/deathcap/kb-bindings) or
+[game-shell](https://github.com/mikolalysenko/game-shell) using [dat-gui](https://code.google.com/p/dat-gui/).
 
 ![screenshot](http://i.imgur.com/Qn85CUW.png "Screenshot") 
 
