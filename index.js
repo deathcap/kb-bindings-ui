@@ -44,7 +44,12 @@ function BindingsUI(game, opts) {
   this.binding2Key = {};
   for (var key in this.kb.bindings) {
     var binding = this.kb.bindings[key];
-    this.binding2Key[binding] = this.vkeyBracket2Bare[key];
+    if (Array.isArray(binding)) {
+      // if multiple bindings, only take first
+      binding = binding[0];
+    }
+
+    this.binding2Key[binding] = this.vkeyBracket2Bare[key] || key;
     this.addBinding(binding);
   }
 }
