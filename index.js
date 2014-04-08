@@ -17,9 +17,18 @@ function BindingsUI(game, opts) {
   opts = opts || {};
 
   this.kb = opts.kb || (game && game.buttons); // might be undefined
-  this.gui = opts.gui || (game && game.plugins && game.plugins.get('voxel-debug') ? game.plugins.get('voxel-debug').gui : new require('dat-gui').GUI());
-  this.hideKeys = opts.hideKeys || ['ime-', 'launch-', 'browser-']; // too long
 
+  // try to latch on to an existing datgui, otherwise make our own
+  this.gui = opts.gui;
+  if (!this.gui) {
+    if (game && game.plugins) {
+      if (game.plugins.get('voxel-debug')) this.gui = game.plugins.get('voxel-debug').gui;
+      else if (game.plugins.get('voxel-plugins-ui')) this.gui = game.plugins.get('voxel-plugins-ui').gui;
+    }
+  }
+  if (!this.gui) this.gui = new require('dat-gui').GUI();
+
+  this.hideKeys = opts.hideKeys || ['ime-', 'launch-', 'browser-']; // too long
   this.folder = this.gui.addFolder('keys');
 
   // clean up the valid key listing TODO: refactor with game-shell? it does almost the same
