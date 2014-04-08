@@ -2,6 +2,7 @@
   "name": "kb-bindings-ui",
   "description": "user interface for kb-bindings",
   "version": "0.2.0",
+  "main": "bindings-ui.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:deathcap/kb-bindings-ui.git"
