@@ -1,6 +1,7 @@
 'use strict';
 
 var vkey = require('vkey');
+var createDatgui = require('dat-gui')
 
 module.exports = function(game, opts) {
   return new BindingsUI(game, opts);
@@ -26,7 +27,7 @@ function BindingsUI(game, opts) {
       else if (game.plugins.get('voxel-plugins-ui')) this.gui = game.plugins.get('voxel-plugins-ui').gui;
     }
   }
-  if (!this.gui) this.gui = new require('dat-gui').GUI();
+  if (!this.gui) this.gui = new createDatgui.GUI();
 
   this.hideKeys = opts.hideKeys || ['ime-', 'launch-', 'browser-']; // too long
   this.folder = this.gui.addFolder('keys');
