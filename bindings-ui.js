@@ -50,6 +50,25 @@ function BindingsUI(game, opts) {
       this.keyListing.push(keyNameBare);
   }
 
+  this.enable();
+}
+
+BindingsUI.prototype.enable = function() {
+  this.populate();
+  if (this.game.shell) {
+    this.game.shell.on('bind', this.onBind = this.populate.bind(this));
+    this.game.shell.on('unbind', this.onUnbind = this.populate.bind(this));
+  }
+}
+
+BindingsUI.prototype.disable = function() {
+  if (this.game.shell) {
+    this.game.shell.removeListener('bind', this.onBind);
+    this.game.shell.removeListener('unbind', this.onUnbind);
+  }
+}
+
+BindingsUI.prototype.populate = function() {
   // get keybindings
   this.binding2Key = {};
   if (this.kb && this.kb.bindings) {
@@ -61,6 +80,16 @@ function BindingsUI(game, opts) {
     }
   } else if (this.game.shell && this.game.shell.bindings) {
     // game-shell - stores binding -> key(s)
+
+    // first, remove all items, since this may be called multiple times
+    if (this.addedItems) {
+      for (var i = 0; i < this.addedItems.length; i += 1) {
+        this.folder.remove(this.addedItems[i]);
+      }
+    }
+
+    // then add everything
+    this.addedItems = [];
     for (var binding in this.game.shell.bindings) {
       var key = this.game.shell.bindings[binding];
 
@@ -69,7 +98,8 @@ function BindingsUI(game, opts) {
       }
 
       this.binding2Key[binding] = this.vkeyBracket2Bare[key] || key;
-      this.addBinding(binding);
+      var item = this.addBinding(binding);
+      this.addedItems.push(item);
     }
   }
 }
@@ -85,6 +115,8 @@ BindingsUI.prototype.addBinding = function (binding) {
   var item = this.folder.add(this.binding2Key, binding, this.keyListing);
 
   item.onChange(updateBinding(this, binding));
+
+  return item;
 };
 
 function updateBinding(self, binding) {
