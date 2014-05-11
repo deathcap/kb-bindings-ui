@@ -42,7 +42,7 @@ function BindingsUI(game, opts) {
 
     this.vkey2code[keyName] = code;
 
-    var keyNameBare = keyName.replace('<', '').replace('>', '');
+    var keyNameBare = filtered_vkey(keyName);
     this.vkeyBracket2Bare[keyName] = keyNameBare;
     this.vkeyBare2Bracket[keyNameBare] = keyName;
 
@@ -51,6 +51,16 @@ function BindingsUI(game, opts) {
   }
 
   this.enable();
+}
+
+// cleanup key name - based on https://github.com/mikolalysenko/game-shell/blob/master/shell.js
+// TODO: refactor with game-shell? and voxel-engine?
+var filtered_vkey = function(k) {
+  if(k.charAt(0) === '<' && k.charAt(k.length-1) === '>') {
+    k = k.substring(1, k.length-1)
+  }
+  k = k.replace(/\s/g, "-")
+  return k
 }
 
 BindingsUI.prototype.enable = function() {
