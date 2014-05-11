@@ -1,7 +1,7 @@
 {
   "name": "kb-bindings-ui",
   "description": "user interface for kb-bindings",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "bindings-ui.js",
   "repository": {
     "type": "git",
