@@ -16,9 +16,6 @@
     "dat-gui": "~0.5.0",
     "vkey": "~0.0.3"
   },
-  "peerDependencies": {
-    "kb-bindings": "~0.2.0"
-  },
   "devDependencies": {
     "kb-bindings": "~0.2.0",
     "interact": "~0.0.2",
